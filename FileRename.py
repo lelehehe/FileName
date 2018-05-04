@@ -3,9 +3,10 @@ import re
 
 SE_REGEX = re.compile(r"[sS]\d{2}[eE]\d{2}")
 
-videoPath = "/Volumes/Plex/Download/review/Criminal Minds/S01"
+videoPath = "/Volumes/Plex/Download/review/Billions/Season 1"
 path = Path(videoPath)
 
+displayOnly = False
 
 files = [p for p in Path(videoPath).iterdir() if p.is_file()]
 
@@ -14,14 +15,15 @@ def purge(fileName):
     found = SE_REGEX.search(fileName)
     if found is None: return None
     s01e01 = found.group().upper()
-    print(', match=',  s01e01)
-    newName = SE_REGEX.split(fileName)[0]
-    print(' name=', newName)
+    # print(', match=',  s01e01)
+    newName = SE_REGEX.split(fileName)[0].replace(" ", "")
+    if not newName.endswith('.'): 
+        newName += '.'
+    print(' name=',newName, " final=", newName + s01e01)
     return newName + s01e01
 
 for file in files: 
     # old name: file.stem
-    print(file.name)
     stem = purge(file.stem)
     if stem is not None: 
         print('rename ', file.stem, ' to ', stem)
@@ -29,8 +31,9 @@ for file in files:
             suffix = ('.chs'+file.suffix)
         else:
             suffix = file.suffix
-        print(' suffix=', suffix)
-        file.rename(Path(file.parent, stem + suffix))
+        # print(' suffix=', suffix)
+        if not displayOnly:
+            file.rename(Path(file.parent, stem + suffix))
 
 
 
