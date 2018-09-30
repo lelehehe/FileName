@@ -7,7 +7,7 @@ from os import walk
 
 SE_REGEX = re.compile(r"[sS]\d{2}[eE]\d{2}")
 
-videoPath = "/Volumes/Plex/Download/new/Curb.Your.Enthusiasm"
+videoPath = "/Volumes/Plex/TV/Westworld/Season 1/untitled folder"
 path = Path(videoPath)
 
 displayOnly = False
@@ -38,7 +38,7 @@ for file in files:
     if stem is not None: 
         print('rename ', file.stem, ' to ', stem)
         if (file.suffix == '.ass' or file.suffix == '.srt'):
-            suffix = ('.chs'+file.suffix)
+            suffix = file.suffix
         else:
             suffix = file.suffix
         # print(' suffix=', suffix)
